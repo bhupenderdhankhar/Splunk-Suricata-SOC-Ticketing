@@ -1,0 +1,52 @@
+# Splunk Detection Queries
+
+## 1. Suricata Alert Events
+
+```spl
+index=* sourcetype="suricata:eve" event_type="alert"
+| table _time src_ip dest_ip alert.signature alert.severity alert.category
+| sort - _time
+```
+
+Purpose: Review Suricata-generated security alerts.
+
+## 2. Group Events by Source IP
+
+```spl
+index=* sourcetype="suricata:eve" event_type="alert"
+| stats count by src_ip
+| sort - count
+```
+
+Purpose: Identify source IPs generating the highest number of alerts.
+
+## 3. Review Alert Signatures
+
+```spl
+index=* sourcetype="suricata:eve" event_type="alert"
+| stats count by alert.signature alert.severity
+| sort - count
+```
+
+Purpose: Summarize alert signatures and severity.
+
+## 4. SSH-Related Suricata Events
+
+```spl
+index=* sourcetype="suricata:eve"
+("ssh" OR "22")
+| table _time src_ip dest_ip dest_port event_type alert.signature
+| sort - _time
+```
+
+Purpose: Investigate events potentially related to SSH activity. Confirm the event fields and actual detection rules before treating a result as a brute-force detection.
+
+## 5. Alert Configuration
+
+The Splunk alert was configured to send matching search results to the Flask webhook endpoint.
+
+Example local lab endpoint:
+
+`http://127.0.0.1:5000/webhook`
+
+Note: This loopback address is suitable only when Splunk and Flask can reach each other on the same host. Use the reachable Flask host address when they run on different machines.
