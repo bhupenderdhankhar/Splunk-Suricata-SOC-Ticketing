@@ -1,0 +1,64 @@
+# Implementation Guide – Splunk Suricata SOC Ticketing
+
+## 1. Environment
+
+| Component | Purpose |
+|---|---|
+| Ubuntu Linux | Splunk and Flask environment |
+| Kali Linux | Authorized network testing |
+| Suricata | Network intrusion detection |
+| Splunk Enterprise | Security event analysis |
+| Python Flask | Ticketing application |
+| SQLite | Ticket storage |
+| VMware | Virtual lab environment |
+
+## 2. Suricata Integration
+
+- Configured Suricata to inspect network traffic.
+- Generated EVE JSON security events.
+- Used `/var/log/suricata/eve.json` as the event source.
+- Integrated Suricata events with Splunk.
+
+## 3. Splunk Monitoring
+
+- Indexed Suricata security events.
+- Used `sourcetype=suricata:eve` for event searches.
+- Developed SPL searches to analyze network events.
+- Configured alerts for selected detection conditions.
+
+## 4. Flask Webhook Integration
+
+- Developed a Flask application with a `/webhook` endpoint.
+- Configured Splunk to send JSON alert payloads.
+- Processed incoming incident information.
+- Returned HTTP responses to webhook requests.
+
+## 5. Automated Ticket Creation
+
+- Extracted relevant alert information from JSON.
+- Generated unique ticket IDs.
+- Stored incident information in SQLite.
+- Implemented duplicate prevention.
+
+## 6. SOC Dashboard
+
+The dashboard provides:
+
+- Total ticket count.
+- Open, In Progress and Resolved tickets.
+- High/Critical incident count.
+- Alert occurrence count.
+- Ticket search and filtering.
+- Incident status updates.
+
+## 7. Validation
+
+Validated the workflow using webhook requests and reviewed ticket creation and incident details in the dashboard.
+
+## 8. Security Considerations
+
+- Keep the webhook restricted to trusted sources.
+- Validate incoming JSON payloads.
+- Use authentication or request-signature verification for production deployments.
+- Do not expose credentials or database files publicly.
+- Use a production WSGI server instead of Flask's development server for deployment.
