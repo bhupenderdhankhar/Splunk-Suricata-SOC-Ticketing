@@ -1,0 +1,63 @@
+# Testing and Validation
+
+## Test Case 1: Suricata Event Ingestion
+
+**Objective:** Verify that Suricata events are available in Splunk.
+
+**Validation:**
+- Search the Suricata sourcetype.
+- Review EVE JSON event fields.
+- Confirm event timestamps and network information.
+
+## Test Case 2: SPL Search
+
+**Objective:** Validate event searching and analysis.
+
+**Validation:**
+- Run the configured SPL search.
+- Review event counts.
+- Inspect source IP, destination IP and alert signatures.
+
+## Test Case 3: Splunk Webhook
+
+**Objective:** Verify that Splunk can send alert payloads to Flask.
+
+**Validation:**
+- Configure the webhook action.
+- Trigger a matching alert.
+- Review the Flask server request logs.
+
+## Test Case 4: Ticket Creation
+
+**Objective:** Verify automatic incident creation.
+
+**Validation:**
+- Send a test JSON payload.
+- Review the webhook response.
+- Confirm the generated ticket ID.
+- Check the ticket in the dashboard.
+
+## Test Case 5: Duplicate Prevention
+
+**Objective:** Verify duplicate handling.
+
+**Validation:**
+- Submit a repeated test incident.
+- Review the application's duplicate response.
+- Verify that the ticket count behaves according to the configured matching logic.
+
+## Test Case 6: Incident Status Management
+
+**Objective:** Verify ticket status updates.
+
+**Validation:**
+- Open a ticket.
+- Change its status.
+- Save the update.
+- Verify the updated status in the dashboard.
+
+## Test Evidence
+
+See the screenshots directory for dashboard, webhook, event-search and incident-detail evidence.
+
+Note: Document only tests that were actually performed and verified in the lab.
